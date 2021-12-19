@@ -117,7 +117,7 @@ namespace TakeABreak
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -147,7 +147,8 @@ namespace TakeABreak
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(32, 20);
             this.textBox1.TabIndex = 6;
-            this.textBox1.Text = "60";
+            this.textBox1.Text = "1";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label3
             // 

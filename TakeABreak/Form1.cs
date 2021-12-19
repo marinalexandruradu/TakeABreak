@@ -18,6 +18,7 @@ namespace TakeABreak
     public partial class Form1 : Form
     {
         private static System.Timers.Timer timer1;
+
         public Form1()
         {
             InitializeComponent();
@@ -26,6 +27,9 @@ namespace TakeABreak
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+
+            timer1 = new System.Timers.Timer();
             string keyName = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run";
             string valueName = "TakeABreak";
             if (Registry.GetValue(keyName, valueName, null) == null)
@@ -36,8 +40,28 @@ namespace TakeABreak
             {
                 checkBox1.Checked = true;
             }
+
+            string keyName2 = @"HKEY_CURRENT_USER\Software\TakeABreak";
+            string valueName2 = "Seconds";
+            if (Registry.GetValue(keyName2, valueName2, null) == null)
+            {
+                RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", true);
+
+                key.CreateSubKey("TakeABreak");
+                key = key.OpenSubKey("TakeABreak", true);
+
+                key.SetValue("Seconds", "60");
+                textBox1.Text = "60";
+            }
+            else
+            {
+                RegistryKey keys = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\TakeABreak");
+                string Thisistheregistry = Convert.ToString(keys.GetValue("Seconds"));
+                Console.Write(Thisistheregistry);
+               textBox1.Text = Thisistheregistry;
+            }
             release();
-            InitTimer();
+           // InitTimer();
 
 
         }
@@ -156,6 +180,20 @@ namespace TakeABreak
                     }
                 }
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            timer1.Dispose();
+            timer1 = new System.Timers.Timer();
+            timer1.Elapsed += new System.Timers.ElapsedEventHandler(timer1_Tick);
+            int RunSeconds = Int32.Parse(textBox1.Text) * 1000;
+            RegistryKey keyss = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\TakeABreak",true);
+            string WriteToReg = textBox1.Text.ToString();
+            keyss.SetValue("Seconds", WriteToReg);
+            timer1.Interval = RunSeconds; // in miliseconds
+            timer1.Start();
         }
     }
 }
